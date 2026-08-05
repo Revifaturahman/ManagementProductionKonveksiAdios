@@ -20,7 +20,7 @@
     </div>
 @endif
     <h4 class="mb-3">Produksi Tahap 2</h4>
-    <form method="GET">
+    {{-- <form method="GET">
 
         <div class="row mb-3">
 
@@ -63,7 +63,7 @@
 
         </div>
 
-    </form>
+    </form> --}}
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
         Tambah Produksi Tahap 2
     </button>
@@ -155,19 +155,12 @@
 </div>
 
 <div class="mb-2">
-    <label>Tanggal Produksi</label>
+    <label for="date">Tanggal Produksi</label>
 
-    {{-- Tampilan Indonesia --}}
     <input
-        type="text"
-        class="form-control mb-2"
-        value="{{ \Carbon\Carbon::today()->translatedFormat('d F Y') }}"
-        readonly
-    >
-
-    {{-- Value asli untuk submit --}}
-    <input
-        type="hidden"
+        type="date"
+        class="form-control"
+        id="date"
         name="date"
         value="{{ old('date', date('Y-m-d')) }}"
     >
@@ -317,19 +310,12 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <div class="mb-2">
-    <label>Tanggal Produksi</label>
+    <label for="date">Tanggal Produksi</label>
 
-    {{-- Tampilan Indonesia --}}
     <input
-        type="text"
-        class="form-control mb-2"
-        value="{{ \Carbon\Carbon::today()->translatedFormat('d F Y') }}"
-        readonly
-    >
-
-    {{-- Value asli untuk submit --}}
-    <input
-        type="hidden"
+        type="date"
+        class="form-control"
+        id="date"
         name="date"
         value="{{ old('date', date('Y-m-d')) }}"
     >

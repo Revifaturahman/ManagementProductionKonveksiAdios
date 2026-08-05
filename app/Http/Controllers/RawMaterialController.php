@@ -604,15 +604,7 @@ class RawMaterialController extends Controller
             'weights.*' => 'required|numeric|min:0.01',
         ]);
 
-        DB::transaction(function () use ($validated, $id) {
-
-            /*
-            |--------------------------------------------------------------------------
-            | Produksi Tahap 1
-            |--------------------------------------------------------------------------
-            */
-
-            $rawMaterial = RawMaterial::findOrFail($id);
+        $rawMaterial = RawMaterial::findOrFail($id);
 
             if ($rawMaterial->status == 'process') {
 
@@ -629,6 +621,14 @@ class RawMaterialController extends Controller
                     'Produksi tahap 1 gagal diubah karena telah selesai diproses.'
                 );
             }
+
+        DB::transaction(function () use ($validated, $rawMaterial, $id) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Produksi Tahap 1
+            |--------------------------------------------------------------------------
+            */
 
             $rawMaterial->update([
                 'courier_id' => $validated['courier_id'],

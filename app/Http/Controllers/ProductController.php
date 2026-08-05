@@ -36,6 +36,8 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|exists:product_categories,id',
+            'ratio_per_kg' => 'required|numeric|min:1',
+            'allocation_ratio' => 'required|numeric|min:1',
         ]);
 
         if($request->id) {
@@ -45,6 +47,8 @@ class ProductController extends Controller
                 $product->fill([
                     'name' => $validated['name'],
                     'category_id' => $validated['category'],
+                    'ratio_per_kg' => $validated['ratio_per_kg'],
+                    'allocation_ratio' => $validated['allocation_ratio'],
                 ]);
 
                 if (!$product->isDirty()) {
@@ -87,10 +91,13 @@ class ProductController extends Controller
                 Product::create([
                     'name' => $validated['name'],
                     'category_id' => $validated['category'],
+                    'ratio_per_kg' => $validated['ratio_per_kg'],
+                    'allocation_ratio' => $validated['allocation_ratio'],
                 ]);
                 return redirect()->route('product.index')->with('success', 'Produk berhasil ditambahkan.');
             } catch (\Exception $e) {
-                return redirect()->route('product.index')->with('error', 'Terjadi kesalahan saat menambahkan produk.');
+                // return redirect()->route('product.index')->with('error', 'Terjadi kesalahan saat menambahkan produk.');
+                dd($e->getMessage());
             }
         }
     }

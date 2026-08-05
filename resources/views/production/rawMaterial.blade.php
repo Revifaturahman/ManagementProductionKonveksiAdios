@@ -8,12 +8,24 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+        {{ session('error') }}
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+        </button>   
+
+    </div>
+@endif
 
 <div class="container">
 
     <h4 class="mb-3">Produksi Tahap 1</h4>
 
-    <form method="GET">
+    {{-- <form method="GET">
 
         <div class="row mb-3">
 
@@ -62,7 +74,7 @@
 
         </div>
 
-    </form>
+    </form> --}}
 
     <!-- BUTTON CREATE -->
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
@@ -116,14 +128,14 @@
                         Edit
                     </button>
 
-                    <button
+                    {{-- <button
                         class="btn btn-info btn-sm btn-lihat"
                         data-id="{{ $item->id }}"
                         data-bs-toggle="modal"
                         data-bs-target="#lihatModal"
                     >
                         Lihat
-                    </button>
+                    </button> --}}
 
                     @include('components.crud.delete-button', [
                         'action' => route('rawMaterial.destroy', $item->id)
@@ -175,7 +187,7 @@
 @component('components.crud.edit-modal', [
     'modalId' => 'editModal'.$item->id,
     'action'  => route('rawMaterial.update', $item->id),
-    'title'   => 'Edit Raw Material'
+    'title'   => 'Edit Produksi Tahap 1'
 ])
 
 <div class="mb-2">
@@ -196,19 +208,12 @@
 </div>
 
 <div class="mb-2">
-    <label>Tanggal Produksi</label>
+    <label for="date">Tanggal Produksi</label>
 
-    {{-- Tampilan Indonesia --}}
     <input
-        type="text"
-        class="form-control mb-2"
-        value="{{ \Carbon\Carbon::today()->translatedFormat('d F Y') }}"
-        readonly
-    >
-
-    {{-- Value asli untuk submit --}}
-    <input
-        type="hidden"
+        type="date"
+        class="form-control"
+        id="date"
         name="date"
         value="{{ old('date', date('Y-m-d')) }}"
     >
@@ -361,7 +366,7 @@
 @component('components.crud.create-modal', [
     'modalId' => 'createModal',
     'action'  => route('rawMaterial.store'),
-    'title'   => 'Tambah Raw Material'
+    'title'   => 'Tambah Produksi Tahap 1'
 ])
 
 <div class="mb-2">
@@ -382,24 +387,16 @@
 </div>
 
 <div class="mb-2">
-    <label>Tanggal Produksi</label>
+    <label for="date">Tanggal Produksi</label>
 
-    {{-- Tampilan Indonesia --}}
     <input
-        type="text"
-        class="form-control mb-2"
-        value="{{ \Carbon\Carbon::today()->translatedFormat('d F Y') }}"
-        readonly
-    >
-
-    {{-- Value asli untuk submit --}}
-    <input
-        type="hidden"
+        type="date"
+        class="form-control"
+        id="date"
         name="date"
         value="{{ old('date', date('Y-m-d')) }}"
     >
 </div>
-
 <hr>
 <h6>Divisi Worker</h6>
 
