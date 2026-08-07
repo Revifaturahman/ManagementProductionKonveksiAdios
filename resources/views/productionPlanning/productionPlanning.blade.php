@@ -48,7 +48,7 @@
         <h4>Perencanaan Produksi</h4>
 
     </div>
-    <form method="GET">
+    {{-- <form method="GET">
 
         <div class="row mb-3">
 
@@ -95,7 +95,7 @@
 
         </div>
 
-    </form>
+    </form> --}}
 
     <button class="btn btn-primary mb-3"
                 data-bs-toggle="modal"

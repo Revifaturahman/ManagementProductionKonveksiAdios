@@ -66,6 +66,10 @@ class AuthController extends Controller
             ], 401);
         }
 
+        $user->update([
+            'is_active' => 1,
+        ]);
+
         /*
         |--------------------------------------------------------------------------
         | SANCTUM TOKEN

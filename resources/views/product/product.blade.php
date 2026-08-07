@@ -69,7 +69,9 @@
                             onclick="openEditModal(
                                 {{ $product->id }},
                                 '{{ $product->name }}',
-                                '{{ $product->category_id }}'
+                                '{{ $product->category_id }}',
+                                '{{ $product->ratio_per_kg }}',
+                                '{{ $product->allocation_ratio }}'
                             )">
 
                             <i class="bi bi-pencil"></i>
@@ -147,6 +149,28 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Rasio per KG</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="ratio_per_kg"
+                        id="ratio_per_kg"
+                        value="{{ old('ratio_per_kg') }}"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Rasio Alokasi</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="allocation_ratio"
+                        id="allocation_ratio"
+                        value="{{ old('allocation_ratio') }}"
+                        required>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -163,13 +187,18 @@ function openCreateModal() {
     document.getElementById('product_id').value = '';
     document.getElementById('name').value = '';
     document.getElementById('category').value = '';
+    document.getElementById('ratio_per_kg').value = '';
+    document.getElementById('allocation_ratio').value = '';
+
 }
 
-function openEditModal(id, name, category) {
+function openEditModal(id, name, category, ratio_per_kg, allocation_ratio) {
     document.getElementById('obrasModalLabel').innerText = 'Edit Produk';
     document.getElementById('product_id').value = id;
     document.getElementById('name').value = name;
     document.getElementById('category').value = category;
+    document.getElementById('ratio_per_kg').value = ratio_per_kg;
+    document.getElementById('allocation_ratio').value = allocation_ratio;
 
     var modal = new bootstrap.Modal(document.getElementById('obrasModal'));
     modal.show();
