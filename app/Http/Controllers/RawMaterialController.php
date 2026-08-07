@@ -6,6 +6,7 @@ use App\Models\Courier;
 use App\Models\ProcessDelivery;
 use App\Models\ProcessProgress;
 use App\Models\Product;
+use App\Models\ProductionPeriod;
 use App\Models\ProductionPlanning;
 use App\Models\ProductionPlanningItem;
 use App\Models\ProductVariant;
@@ -399,6 +400,61 @@ class RawMaterialController extends Controller
                     'finished_at' => null,
                 ]);
             }
+            $planningIds = ProductionPlanningItem::whereIn(
+                'id',
+                $validated['planning_item_ids']
+            )
+            ->pluck('production_planning_id')
+            ->unique();
+
+            foreach ($planningIds as $planningId) {
+
+                $planning = ProductionPlanning::find($planningId);
+
+                $hasRemaining = $planning->items()
+                    ->where('remaining_kg', '>', 0)
+                    ->exists();
+
+                if (!$hasRemaining) {
+                    $planning->update([
+                        'status' => 'finished'  
+                    ]);
+                }
+            }
+
+            try {
+
+            $periodIds = ProductionPlanning::whereIn('id', $planningIds)
+                ->pluck('production_period_id')
+                ->unique();
+
+            foreach ($periodIds as $periodId) {
+
+                $hasUnfinishedPlanning = ProductionPlanning::where(
+                    'production_period_id',
+                    $periodId
+                )
+                ->where('status', '!=', 'finished')
+                ->exists();
+
+                if (!$hasUnfinishedPlanning) {
+
+                    ProductionPeriod::where('id', $periodId)
+                        ->update([
+                            'status' => 'finished'
+                        ]);
+                }
+            }
+
+        } catch (\Throwable $e) {
+
+            dd([
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+        }
 
         });
 

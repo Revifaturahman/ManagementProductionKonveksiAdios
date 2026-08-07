@@ -42,10 +42,9 @@ class ProductionPlanningController extends Controller
                 ->latest()
                 ->get();
 
-        $periods =
-            ProductionPeriod::orderByDesc(
-                'start_date'
-            )->get();
+        $periods = ProductionPeriod::where('status', 'pending')
+            ->orderByDesc('start_date')
+            ->get();
 
         return view(
             'productionPlanning.productionPlanning',

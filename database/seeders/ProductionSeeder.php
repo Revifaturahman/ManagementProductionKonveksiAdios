@@ -468,41 +468,41 @@ class ProductionSeeder extends Seeder
         DB::table('semi_products')->insert([
 
             // Kaos Oblong Pendek Dewasa
-            ['product_variant_id' => 1, 'qty' => 40, 'created_at' => now()],
-            ['product_variant_id' => 2, 'qty' => 60, 'created_at' => now()],
-            ['product_variant_id' => 3, 'qty' => 56, 'created_at' => now()],
-            ['product_variant_id' => 4, 'qty' => 72, 'created_at' => now()],
+            ['product_variant_id' => 1, 'qty' => 19, 'created_at' => now()], // S
+            ['product_variant_id' => 2, 'qty' => 24, 'created_at' => now()], // M
+            ['product_variant_id' => 3, 'qty' => 22, 'created_at' => now()], // L
+            ['product_variant_id' => 4, 'qty' => 14, 'created_at' => now()], // XL
 
             // Kaos Oblong Panjang Dewasa
-            ['product_variant_id' => 5, 'qty' => 30, 'created_at' => now()],
-            ['product_variant_id' => 6, 'qty' => 36, 'created_at' => now()],
-            ['product_variant_id' => 7, 'qty' => 33, 'created_at' => now()],
-            ['product_variant_id' => 8, 'qty' => 45, 'created_at' => now()],
+            ['product_variant_id' => 5, 'qty' => 14, 'created_at' => now()], // S
+            ['product_variant_id' => 6, 'qty' => 19, 'created_at' => now()], // M
+            ['product_variant_id' => 7, 'qty' => 17, 'created_at' => now()], // L
+            ['product_variant_id' => 8, 'qty' => 11, 'created_at' => now()], // XL
 
             // Kaos Berkerah Pendek Dewasa
-            ['product_variant_id' => 9,  'qty' => 36, 'created_at' => now()],
-            ['product_variant_id' => 10, 'qty' => 52, 'created_at' => now()],
-            ['product_variant_id' => 11, 'qty' => 48, 'created_at' => now()],
-            ['product_variant_id' => 12, 'qty' => 64, 'created_at' => now()],
+            ['product_variant_id' => 9,  'qty' => 18, 'created_at' => now()], // S
+            ['product_variant_id' => 10, 'qty' => 23, 'created_at' => now()], // M
+            ['product_variant_id' => 11, 'qty' => 21, 'created_at' => now()], // L
+            ['product_variant_id' => 12, 'qty' => 13, 'created_at' => now()], // XL
 
             // Kaos Berkerah Pendek Anak
-            ['product_variant_id' => 13, 'qty' => 16, 'created_at' => now()],
-            ['product_variant_id' => 14, 'qty' => 24, 'created_at' => now()],
-            ['product_variant_id' => 15, 'qty' => 24, 'created_at' => now()],
-            ['product_variant_id' => 16, 'qty' => 40, 'created_at' => now()],
+            ['product_variant_id' => 13, 'qty' => 11, 'created_at' => now()], // S
+            ['product_variant_id' => 14, 'qty' => 15, 'created_at' => now()], // M
+            ['product_variant_id' => 15, 'qty' => 13, 'created_at' => now()], // L
+            ['product_variant_id' => 16, 'qty' => 8,  'created_at' => now()], // XL
 
             // Kaos Oblong Pendek Anak
-            ['product_variant_id' => 17, 'qty' => 16, 'created_at' => now()],
-            ['product_variant_id' => 18, 'qty' => 24, 'created_at' => now()],
-            ['product_variant_id' => 19, 'qty' => 24, 'created_at' => now()],
-            ['product_variant_id' => 20, 'qty' => 48, 'created_at' => now()],
+            ['product_variant_id' => 17, 'qty' => 12, 'created_at' => now()], // S
+            ['product_variant_id' => 18, 'qty' => 17, 'created_at' => now()], // M
+            ['product_variant_id' => 19, 'qty' => 15, 'created_at' => now()], // L
+            ['product_variant_id' => 20, 'qty' => 8,  'created_at' => now()], // XL
 
         ]);
 
 
         DB::table('finished_products')->insert([
 
-             // Kaos Oblong Pendek Dewasa
+            // Kaos Oblong Pendek Dewasa
             ['product_variant_id' => 1, 'qty' => 13, 'created_at' => now()], // S
             ['product_variant_id' => 2, 'qty' => 17, 'created_at' => now()], // M
             ['product_variant_id' => 3, 'qty' => 15, 'created_at' => now()], // L
@@ -527,10 +527,10 @@ class ProductionSeeder extends Seeder
             ['product_variant_id' => 16, 'qty' => 4, 'created_at' => now()], // XL
 
             // Kaos Oblong Pendek Anak
-            ['product_variant_id' => 17, 'qty' => 7,  'created_at' => now()], // S
+            ['product_variant_id' => 17, 'qty' => 7, 'created_at' => now()], // S
             ['product_variant_id' => 18, 'qty' => 10, 'created_at' => now()], // M
-            ['product_variant_id' => 19, 'qty' => 9,  'created_at' => now()], // L
-            ['product_variant_id' => 20, 'qty' => 4,  'created_at' => now()], // XL
+            ['product_variant_id' => 19, 'qty' => 9, 'created_at' => now()], // L
+            ['product_variant_id' => 20, 'qty' => 4, 'created_at' => now()], // XL
 
         ]);
 
@@ -546,7 +546,7 @@ class ProductionSeeder extends Seeder
 
         DB::table('raw_material_stocks')->insert([
             'raw_material_master_id' => 1,
-            'stock_kg' => 200,]);
+            'stock_kg' => 100,]);
     }
         
         
