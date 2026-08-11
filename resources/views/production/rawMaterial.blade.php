@@ -235,35 +235,41 @@
 <div class="mb-2">
     <label>Pemotong</label>
 
-    <input
-        type="text"
-        class="form-control"
-        value="{{ $cutters->first()?->name ?? '-' }} - Sisa Kerjaan {{ $cutters->first()?->remaining_qty ?? 0 }} PCS"
-        readonly
-    >
-
-    <input
-        type="hidden"
+    <select
         name="cutter_worker_id"
-        value="{{ $cutters->first()?->id }}"
+        class="form-select"
+        required
     >
+        @foreach($cutters as $worker)
+            <option
+                value="{{ $worker->id }}"
+                {{ optional($cutterProcess)->worker_id == $worker->id ? 'selected' : '' }}
+            >
+                {{ $worker->name }}
+                - Sisa Kerjaan {{ $worker->remaining_qty }} PCS
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="mb-2">
     <label>Overdeck Tangan</label>
 
-    <input
-        type="text"
-        class="form-control"
-         value="{{ $overdeck_hands->first()?->name ?? '-' }} - Sisa Kerjaan {{ $overdeck_hands->first()?->remaining_qty ?? 0 }} PCS"
-        readonly
-    >
-
-    <input
-        type="hidden"
+    <select
         name="overdeck_worker_id"
-        value="{{ $overdeck_hands->first()?->id }}"
+        class="form-select"
+        required
     >
+        @foreach($overdeck_hands as $worker)
+            <option
+                value="{{ $worker->id }}"
+                {{ optional($overdeckProcess)->worker_id == $worker->id ? 'selected' : '' }}
+            >
+                {{ $worker->name }}
+                - Sisa Kerjaan {{ $worker->remaining_qty }} PCS
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <hr>
@@ -403,35 +409,39 @@
 <div class="mb-2">
     <label>Pemotong</label>
 
-    <input
-        type="text"
-        class="form-control"
-        value="{{ $cutters->first()?->name ?? '-' }} - Sisa Kerjaan {{ $cutters->first()?->remaining_qty ?? 0 }} PCS"
-        readonly
-    >
-
-    <input
-        type="hidden"
+    <select
         name="cutter_worker_id"
-        value="{{ $cutters->first()?->id }}"
+        class="form-select"
+        required
     >
+        @foreach($cutters as $worker)
+            <option
+                value="{{ $worker->id }}"
+                {{ $loop->first ? 'selected' : '' }}
+            >
+                {{ $worker->name }} - Sisa Kerjaan {{ $worker->remaining_qty }} PCS
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="mb-2">
     <label>Overdeck Tangan</label>
 
-    <input
-        type="text"
-        class="form-control"
-        value="{{ $overdeck_hands->first()?->name ?? '-' }} - Sisa Kerjaan {{ $overdeck_hands->first()?->remaining_qty ?? 0 }} PCS"
-        readonly
-    >
-
-    <input
-        type="hidden"
+    <select
         name="overdeck_worker_id"
-        value="{{ $overdeck_hands->first()?->id }}"
+        class="form-select"
+        required
     >
+        @foreach($overdeck_hands as $worker)
+            <option
+                value="{{ $worker->id }}"
+                {{ $loop->first ? 'selected' : '' }}
+            >
+                {{ $worker->name }} - Sisa Kerjaan {{ $worker->remaining_qty }} PCS
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <hr>

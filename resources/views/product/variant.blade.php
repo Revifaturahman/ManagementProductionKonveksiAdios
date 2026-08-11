@@ -79,20 +79,18 @@
                         <form
                             action="{{ route('variant.destroy', $variant->id) }}"
                             method="POST"
-                            class="d-inline">
+                            class="delete-form d-inline">
 
                             @csrf
                             @method('DELETE')
 
                             <button
                                 type="button"
-                                class="btn btn-sm btn-danger"
-                                onclick="confirmDelete(this.form)">
+                                class="btn btn-sm btn-danger btn-delete">
 
                                 <i class="bi bi-trash"></i>
 
                             </button>
-
                         </form>
 
                     </td>
@@ -182,11 +180,42 @@ function openEditModal(id, name, category) {
     modal.show();
 }
 
-function confirmDelete(form) {
-    if (confirm("Yakin ingin menghapus Varian Produk ini?")) {
-        form.submit();
-    }
-}
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('.btn-delete')
+        .forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                let form = this.closest('.delete-form');
+
+                Swal.fire({
+
+                    title: 'Yakin hapus?',
+                    text: 'Data varian produk akan dihapus!',
+                    icon: 'warning',
+
+                    showCancelButton: true,
+
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+
+                    confirmButtonText: 'Ya, Hapus',
+                    cancelButtonText: 'Batal'
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+
+                });
+
+            });
+
+        });
+
+});
 
 </script>
 @endsection

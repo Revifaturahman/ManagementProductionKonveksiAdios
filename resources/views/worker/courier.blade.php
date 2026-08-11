@@ -43,12 +43,18 @@
             <div class="position-relative p-4 bg-white shadow-sm rounded">
 
                 <!-- Tombol hapus -->
-                <form action="{{ route('courier.destroy', $courier->id) }}" method="POST" class="position-absolute top-0 end-0 m-2">
+                <form action="{{ route('courier.destroy', $courier->id) }}"
+                    method="POST"
+                    class="delete-form position-absolute top-0 end-0 m-2">
+
                     @csrf
                     @method('DELETE')
-                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(this.form)">
+
+                    <button type="button"
+                            class="btn btn-sm btn-danger btn-delete">
                         <i class="bi bi-trash"></i>
                     </button>
+
                 </form>
 
                 <!-- Klik card untuk edit -->
@@ -143,11 +149,42 @@ function openEditModal(id, name, username, phone) {
     modal.show();
 }
 
-function confirmDelete(form) {
-    if (confirm("Yakin ingin menghapus Kurir ini?")) {
-        form.submit();
-    }
-}
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('.btn-delete')
+        .forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                let form = this.closest('.delete-form');
+
+                Swal.fire({
+
+                    title: 'Yakin hapus?',
+                    text: 'Data kurir akan dihapus!',
+                    icon: 'warning',
+
+                    showCancelButton: true,
+
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+
+                    confirmButtonText: 'Ya, Hapus',
+                    cancelButtonText: 'Batal'
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+
+                });
+
+            });
+
+        });
+
+});
 
 </script>
 @endsection

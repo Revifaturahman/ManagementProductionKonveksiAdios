@@ -68,52 +68,19 @@
                 <div class="position-absolute top-0 end-0 m-2 d-flex flex-column align-items-end gap-2">
 
                     <!-- Tombol hapus -->
-                    <form action="{{ route('workers.destroy', $production->id) }}" method="POST">
+                    <form action="{{ route('workers.destroy', $production->id) }}"
+                        method="POST"
+                        class="delete-form">
+
                         @csrf
                         @method('DELETE')
 
                         <button type="button"
-                                class="btn btn-sm btn-danger"
-                                onclick="confirmDelete(this.form)">
+                                class="btn btn-sm btn-danger btn-delete">
                             <i class="bi bi-trash"></i>
                         </button>
+
                     </form>
-
-                    @if ($production->user)
-
-                        <form action="{{ route('production-account.delete', $production->user->id) }}"
-                            method="POST">
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit"
-                                    class="btn btn-sm btn-warning"
-                                    onclick="confirmDeleteAccount(this.form)">
-                                Reset Akun
-                            </button>
-
-                        </form>
-
-                    @else
-
-                        <button
-                            type="button"
-                            class="btn btn-sm btn-success"
-                            data-bs-toggle="modal"
-                            data-bs-target="#akunModal"
-                            onclick="openCreateAccountModal(
-                                {{ $production->id }},
-                                '{{ $production->name }}',
-                                '{{ $production->phone }}'
-                            )">
-
-                            Buat Akun
-
-                        </button>
-
-                    @endif
-
                 </div>
 
                 <!-- Klik card untuk edit -->
@@ -167,6 +134,26 @@
                 <div class="mb-3">
                     <label class="form-label">Nomor Telepon</label>
                     <input type="text" class="form-control" name="phone" id="phone" required value="{{ old('phone') }}">
+                </div>
+
+                <div class="mb-3" id="accountFields">
+                    <label class="form-label">Username</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="username"
+                        id="username"
+                        autocomplete="off">
+                </div>
+
+                <div class="mb-3" id="passwordField">
+                    <label class="form-label">Password</label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        id="password"
+                        autocomplete="new-password">
                 </div>
 
                 <div class="mb-3">
@@ -278,58 +265,39 @@
     </div>
 </div>
 
-<!-- Modal TAMBAH AKUN-->
-<div class="modal fade" id="akunModal" tabindex="-1" aria-labelledby="obrasModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form action="{{ route('production-account.create') }}" method="POST" class="modal-content" autocomplete="off">
-            @csrf
-            <input type="hidden" name="account_production_id" id="account_production_id" value="{{ old('account_production_id') }}">
-            <input type="hidden" name="account_phone" id="account_phone" value="{{ old('account_phone') }}">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="obrasModalLabel">Buat Akun Pekerja Produksi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger text-center">
-                        {{ $errors->first() }}
-                    </div>
-                @endif
-                <div class="mb-3">
-                    <label class="form-label">Nama</label>
-                    <input type="text" class="form-control" name="name" id="account_name" readonly value="{{ old('name') }}">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control" name="username" id="username" required autocomplete="new-password">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" required autocomplete="new-password">
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-        </form>
-    </div>
-</div>
 <script>
 
 function openCreateModal() {
-    document.getElementById('obrasModalLabel').innerText = 'Tambah Pekerja Produksi';
+
+    document.getElementById('obrasModalLabel').innerText =
+        'Tambah Pekerja Produksi';
+
     document.getElementById('production_id').value = '';
+
     document.getElementById('name').value = '';
     document.getElementById('phone').value = '';
+
+    // Tampilkan field akun
+    document.getElementById('accountFields').style.display = 'block';
+    document.getElementById('passwordField').style.display = 'block';
+
+    // Username dan password wajib diisi saat CREATE
+    document.getElementById('username').setAttribute('required', 'required');
+    document.getElementById('password').setAttribute('required', 'required');
+
+    // Kosongkan akun
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+
     document.getElementById('role').value = '';
+    document.getElementById('overdeck_type').value = '';
+
     document.getElementById('address').value = '';
+    document.getElementById('latitude').value = '';
+    document.getElementById('longitude').value = '';
+
     document.getElementById('rate_per_piece').value = '';
+
     document.getElementById('overdeckField').style.display = 'none';
 }
 
@@ -344,47 +312,104 @@ document.getElementById('role').addEventListener('change', function () {
 
 });
 
-function openEditModal(id, name, phone, role , overdeck_type, address, rate_per_piece,  latitude,
-    longitude) {
-    document.getElementById('obrasModalLabel').innerText = 'Edit Pekerja Produksi';
+function openEditModal(
+    id,
+    name,
+    phone,
+    role,
+    overdeck_type,
+    address,
+    rate_per_piece,
+    latitude,
+    longitude
+) {
+
+    document.getElementById('obrasModalLabel').innerText =
+        'Edit Pekerja Produksi';
+
     document.getElementById('production_id').value = id;
+
     document.getElementById('name').value = name;
     document.getElementById('phone').value = phone;
+
     document.getElementById('role').value = role;
-    document.getElementById('address').value = address;
     document.getElementById('overdeck_type').value = overdeck_type;
+
     document.getElementById('rate_per_piece').value = rate_per_piece;
-    document.getElementById('overdeck_type').value = overdeck_type;
+
+    document.getElementById('address').value = address;
     document.getElementById('latitude').value = latitude;
     document.getElementById('longitude').value = longitude;
+
+    // ==========================================
+    // AKUN TIDAK DITAMPILKAN SAAT EDIT
+    // ==========================================
+
+    document.getElementById('accountFields').style.display = 'none';
+    document.getElementById('passwordField').style.display = 'none';
+
+    // Username dan password tidak wajib
+    document.getElementById('username').removeAttribute('required');
+    document.getElementById('password').removeAttribute('required');
+
+    // Kosongkan value agar tidak ikut terkirim
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+
+    // ==========================================
+    // OVERDECK
+    // ==========================================
 
     if (role === 'overdeck') {
         document.getElementById('overdeckField').style.display = 'block';
     } else {
         document.getElementById('overdeckField').style.display = 'none';
     }
-    var modal = new bootstrap.Modal(document.getElementById('obrasModal'));
+
+    var modal = new bootstrap.Modal(
+        document.getElementById('obrasModal')
+    );
+
     modal.show();
 }
 
-function confirmDelete(form) {
-    if (confirm("Yakin ingin menghapus Pekerja Produksi ini?")) {
-        form.submit();
-    }
-}
-function openCreateAccountModal(id, name, phone) {
-    console.log({"id": id, "name": name, "phone": phone});
-    document.getElementById('account_production_id').value = id;
-    document.getElementById('account_phone').value = phone;
-    document.getElementById('account_name').value = name;
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-}
-function confirmDeleteAccount(form) {
-    if (confirm("Yakin ingin mereset akun Pekerja Produksi ini?")) {
-        form.submit();
-    }
-}
+// DELETE CONFIRMATION
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll('.btn-delete')
+        .forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                let form = this.closest('.delete-form');
+
+                Swal.fire({
+
+                    title: 'Yakin hapus?',
+                    text: 'Data pekerja produksi akan dihapus!',
+                    icon: 'warning',
+
+                    showCancelButton: true,
+
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+
+                    confirmButtonText: 'Ya, Hapus',
+                    cancelButtonText: 'Batal'
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+
+                });
+
+            });
+
+        });
+
+});
 </script>
 @endsection
 @push('scripts')
