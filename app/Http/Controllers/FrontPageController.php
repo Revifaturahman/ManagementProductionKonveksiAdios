@@ -135,7 +135,7 @@ class FrontPageController extends Controller
             ->limit(10)
             ->get();
 
-        return view('dashboard', compact(
+        return view('frontPage', compact(
             'rawMaterialKg',
             'semiProductPcs',
             'finishedProductPcs',

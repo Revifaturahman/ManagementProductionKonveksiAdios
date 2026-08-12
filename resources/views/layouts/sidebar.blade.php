@@ -34,7 +34,7 @@
                     <li class="nav-item">
                         <a href="/workers" class="nav-link text-white">
                             <i class="bi bi-people me-2"></i>
-                            <span class="menu-text">Daftar Maklun</span>
+                            <span class="menu-text">Maklun</span>
                         </a>
                     </li>
 

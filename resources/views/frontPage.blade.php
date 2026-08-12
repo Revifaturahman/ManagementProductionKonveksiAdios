@@ -68,7 +68,7 @@
                 <div class="card-body">
                     <div class="text-muted small text-center">Produksi Aktif</div>
                     <h4 class="mb-0 text-center">
-                        {{ $activeProduction }} Batch
+                        {{ $activeProduction }} Produksi
                     </h4>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                 <div class="card-body">
                     <div class="text-muted small text-center">Kurir Aktif</div>
                     <h4 class="mb-0 text-center">
-                        {{ $activeWorkers }}
+                        {{ $activeWorkers }} Orang
                     </h4>
                 </div>
             </div>
