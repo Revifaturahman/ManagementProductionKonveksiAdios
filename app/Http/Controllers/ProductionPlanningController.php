@@ -540,11 +540,17 @@ class ProductionPlanningController extends Controller
                 'rawMaterialMaster.stock'
             ])->findOrFail($id);
 
-            /*
-            |--------------------------------------------------------------------------
-            | RETURN STOCK
-            |--------------------------------------------------------------------------
-            */
+            if ($planning->status == 'process') {
+
+                DB::rollBack();
+
+                return redirect()
+                    ->back()
+                    ->with(
+                        'error',
+                        'Perencanaan produksi gagal dihapus karena sudah diproses pada produksi tahap 1.'
+                    );
+            }
 
             $totalKg =
                 $planning->items->sum(
@@ -564,12 +570,6 @@ class ProductionPlanningController extends Controller
                     $totalKg
                 );
             }
-
-            /*
-            |--------------------------------------------------------------------------
-            | DELETE PLANNING
-            |--------------------------------------------------------------------------
-            */
 
             $planning->delete();
 

@@ -212,6 +212,14 @@ class ProductionPeriodController extends Controller
         ProductionPeriod $productionPeriod
     )
     {
+        if ($productionPeriod->status == 'active') {
+
+            return back()->with(
+                'error',
+                'Periode produksi gagal dihapus karena masih berstatus aktif.'
+            );
+        }
+
         if (
             $productionPeriod
                 ->plannings()
@@ -219,7 +227,7 @@ class ProductionPeriodController extends Controller
         ) {
             return back()->with(
                 'error',
-                'Periode sudah digunakan pada planning'
+                'Periode sudah digunakan pada planning.'
             );
         }
 
@@ -227,7 +235,7 @@ class ProductionPeriodController extends Controller
 
         return back()->with(
             'success',
-            'Periode berhasil dihapus'
+            'Periode berhasil dihapus.'
         );
     }
 }

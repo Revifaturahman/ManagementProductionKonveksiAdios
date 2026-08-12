@@ -828,10 +828,30 @@ class RawMaterialController extends Controller
      */
     public function destroy(RawMaterial $rawMaterial)
     {
+       
+        if ($rawMaterial->status == 'process') {
+
+            return back()->with(
+                'error',
+                'Produksi tahap 1 gagal dihapus karena sedang dalam proses pengiriman.'
+            );
+        }
+
+
+        if ($rawMaterial->status == 'finished') {
+
+            return back()->with(
+                'error',
+                'Produksi tahap 1 gagal dihapus karena telah selesai diproses.'
+            );
+        }
+
+
         $rawMaterial->delete();
+
         return back()->with(
             'success',
-            'Produksi Tahap 1 berhasil dihapus'
+            'Produksi Tahap 1 berhasil dihapus.'
         );
     }
 
