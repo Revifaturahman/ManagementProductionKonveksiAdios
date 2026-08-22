@@ -48,6 +48,26 @@
         <h4>Perencanaan Produksi</h4>
 
     </div>
+    <div class="alert alert-info">
+        <strong>Keterangan Konversi Bahan Baku:</strong>
+
+        <ul class="mb-0 mt-2">
+            <li>
+                1 KG bahan baku =
+                <strong>4 PCS</strong> Kaos Tangan Pendek Dewasa
+            </li>
+
+            <li>
+                1 KG bahan baku =
+                <strong>3 PCS</strong> Kaos Tangan Panjang Dewasa
+            </li>
+
+            <li>
+                1 KG bahan baku =
+                <strong>8 PCS</strong> Kaos Anak
+            </li>
+        </ul>
+    </div>
     {{-- <form method="GET">
 
         <div class="row mb-3">
@@ -120,7 +140,7 @@
                         <th>Estimasi KG</th>
                         <th>Remaining KG</th>
                         <th>Estimasi PCS</th>
-                        <th>Total KG</th>
+                        <th>Total</th>
                         <th>Status</th>
                         <th width="150">Aksi</th>
                     </tr>
@@ -393,24 +413,19 @@
 
                     </tbody>
                     <tfoot>
-
                         <tr>
-
-                            <th colspan="3"
-                                class="text-start">
-
-                                Total KG
-
+                            <th colspan="2" class="text-center">
+                                Total
                             </th>
 
-                            <th id="totalKgDisplay">
-
+                            <th id="totalKgDisplay" class="text-center">
                                 0 KG
-
                             </th>
 
+                            <th id="totalPcsDisplay" class="text-center">
+                                0 PCS
+                            </th>
                         </tr>
-
                     </tfoot>
 
                 </table>
@@ -924,28 +939,52 @@ document
 
 function updateTotalKg()
 {
-    let total = 0;
+    let totalKg = 0;
+    let totalPcs = 0;
 
-    let inputs =
-        document.querySelector(
-            '#createModal'
-        ).querySelectorAll(
+    let rows = document
+        .querySelector('#planningRows')
+        .querySelectorAll('tr');
+
+    rows.forEach(row => {
+
+        let kgInput = row.querySelector(
             'input[name="estimated_kgs[]"]'
         );
 
-    inputs.forEach(input => {
+        let ratioInput = row.querySelector(
+            '.ratio-per-kg'
+        );
 
-        total += parseFloat(
-            input.value || 0
+        if (!kgInput || !ratioInput) {
+            return;
+        }
+
+        let kg = parseFloat(
+            kgInput.value || 0
+        );
+
+        let ratio = parseFloat(
+            ratioInput.value || 0
+        );
+
+        totalKg += kg;
+
+        totalPcs += Math.round(
+            kg * ratio
         );
 
     });
 
-    document
-        .getElementById(
-            'totalKgDisplay'
-        ).innerText =
-        total + ' KG';
+    document.getElementById(
+        'totalKgDisplay'
+    ).innerText =
+        totalKg + ' KG';
+
+    document.getElementById(
+        'totalPcsDisplay'
+    ).innerText =
+        totalPcs + ' PCS';
 }
 
 document.addEventListener(

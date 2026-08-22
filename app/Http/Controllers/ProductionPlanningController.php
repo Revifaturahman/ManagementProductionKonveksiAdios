@@ -160,7 +160,7 @@ class ProductionPlanningController extends Controller
             $usableKg =
                 max(
                     0,
-                    $rawMaterial->stock->stock_kg - 40
+                    $rawMaterial->stock->stock_kg - 50
                 );
 
             // dd([
@@ -176,11 +176,14 @@ class ProductionPlanningController extends Controller
 
             if ($usableKg < $totalKg) {
 
+                DB::rollBack();
+
                 return redirect()
                     ->back()
+                    ->withInput()
                     ->with(
                         'error',
-                        'Stock bahan baku tidak mencukupi'
+                        'Perencanaan produksi tidak dapat ditambahkan karena sisa stok bahan baku akan kurang dari 50 KG.'
                     );
             }
 
