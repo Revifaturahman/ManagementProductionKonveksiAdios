@@ -467,6 +467,7 @@ return new class extends Migration
                 'pending',
                 'processing',
                 'arrive',
+                'returning',
                 'finished'
             ])->default('pending');
 

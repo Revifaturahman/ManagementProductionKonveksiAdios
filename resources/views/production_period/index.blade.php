@@ -130,7 +130,7 @@
 
                         <td class="text-nowrap">
 
-                            <button class="btn btn-warning btn-sm"
+                            {{-- <button class="btn btn-warning btn-sm"
 
                                     data-bs-toggle="modal"
                                     data-bs-target="#periodModal"
@@ -144,7 +144,7 @@
 
                                 Edit
 
-                            </button>
+                            </button> --}}
 
                             <form action="{{ route('production_period.destroy', $period->id) }}"
                                 method="POST"
@@ -227,7 +227,7 @@
                            name="start_date"
                            id="start_date"
                            class="form-control"
-                           required>
+                           readonly>
 
                 </div>
 
@@ -239,7 +239,7 @@
                            name="end_date"
                            id="end_date"
                            class="form-control"
-                           required>
+                           readonly>
 
                 </div>
 
@@ -262,6 +262,8 @@
 
 </div>
 
+
+
 @endsection
 
 @push('scripts')
@@ -269,21 +271,40 @@
 
 function openCreateModal() {
 
-    document.getElementById('periodModalLabel').innerText = 'Tambah Periode';
+    document.getElementById('periodModalLabel').innerText =
+        'Tambah Periode';
 
     document.getElementById('periodForm').action =
         "{{ route('production_period.store') }}";
 
     document.getElementById('methodField').innerHTML = '';
 
-    document.getElementById('start_date').value = '';
+    // Tanggal mulai = hari ini
+    let startDate = new Date();
 
-    document.getElementById('end_date').value = '';
+    // Tanggal selesai = 7 hari setelah tanggal mulai
+    let endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 7);
+
+    // Format YYYY-MM-DD
+    let startDateValue =
+        startDate.toISOString().split('T')[0];
+
+    let endDateValue =
+        endDate.toISOString().split('T')[0];
+
+    document.getElementById('start_date').value =
+        startDateValue;
+
+    document.getElementById('end_date').value =
+        endDateValue;
 }
+
 
 function openEditModal(id, startDate, endDate) {
 
-    document.getElementById('periodModalLabel').innerText = 'Edit Periode';
+    document.getElementById('periodModalLabel').innerText =
+        'Edit Periode';
 
     document.getElementById('periodForm').action =
         `/production_period/${id}`;
@@ -291,10 +312,34 @@ function openEditModal(id, startDate, endDate) {
     document.getElementById('methodField').innerHTML =
         '@method("PUT")';
 
-    document.getElementById('start_date').value = startDate;
+    document.getElementById('start_date').value =
+        startDate;
 
-    document.getElementById('end_date').value = endDate;
+    document.getElementById('end_date').value =
+        endDate;
+
+    let options = {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    };
+
+    let startDisplay =
+        new Date(startDate).toLocaleDateString(
+            'id-ID',
+            options
+        );
+
+    let endDisplay =
+        new Date(endDate).toLocaleDateString(
+            'id-ID',
+            options
+        );
+
+    document.getElementById('periodPreview').innerText =
+        startDisplay + ' s/d ' + endDisplay;
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -305,22 +350,29 @@ document.addEventListener("DOMContentLoaded", function () {
             let form = this.closest('.delete-form');
 
             Swal.fire({
+
                 title: 'Yakin hapus?',
+
                 text: 'Data periode produksi akan dihapus!',
+
                 icon: 'warning',
 
                 showCancelButton: true,
 
                 confirmButtonColor: '#d33',
+
                 cancelButtonColor: '#3085d6',
 
                 confirmButtonText: 'Ya, Hapus',
+
                 cancelButtonText: 'Batal'
 
             }).then((result) => {
 
                 if (result.isConfirmed) {
+
                     form.submit();
+
                 }
 
             });
@@ -330,6 +382,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
 
 </script>
 @endpush

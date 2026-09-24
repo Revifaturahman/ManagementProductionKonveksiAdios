@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\ProcessDelivery2Controller;
 use App\Http\Controllers\Api\RawMaterialProcessController;
 use App\Http\Controllers\Api\WorkerTask2Controller;
 use App\Http\Controllers\Api\WorkerTaskController;
+use App\Http\Controllers\Api\CourierController;
+use App\Http\Controllers\Api\CourierControllerAPI;
 use Illuminate\Support\Facades\Route;
 
 // 
@@ -51,6 +53,11 @@ Route::middleware('auth:sanctum')->group(function () {
         [ProcessDelivery1Controller::class, 'getArrivedTasks']
     );
 
+    Route::post(
+        'courier/return-to-factory',
+        [ProcessDelivery1Controller::class, 'returnToFactory']
+    );
+
 
     // PRODUKSI TAHAP 2 KURIR
     Route::get(
@@ -81,6 +88,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get(
         'courier/arrived-tasks2',
         [ProcessDelivery2Controller::class, 'getArrivedTasks']
+    );
+
+    Route::post(
+        'courier/return-to-factory2',
+        [ProcessDelivery2Controller::class, 'returnToFactory']
     );
 
     Route::post(
@@ -120,3 +132,7 @@ Route::middleware('auth:sanctum')->group(function () {
         [WorkerTask2Controller::class, 'updateProgress']
     );
 });
+
+
+Route::get("/courier", [CourierControllerAPI::class, 'apiIndex']);
+Route::post('/courier', [CourierControllerAPI::class, 'apiStore']);

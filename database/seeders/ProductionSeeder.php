@@ -243,7 +243,7 @@ class ProductionSeeder extends Seeder
                 'name'       => 'Agung',
                 'username'   => 'agung',
                 'password'   => Hash::make('123456'),
-                'phone'      => null,
+                'phone'      => "097365263721",
                 'is_active'   => 0,
                 'role'       => 'courier',
                 'worker_id'  => null,
@@ -254,7 +254,7 @@ class ProductionSeeder extends Seeder
                 'name'       => 'Rizky',
                 'username'   => 'rizky',
                 'password'   => Hash::make('123456'),
-                'phone'      => null,
+                'phone'      => "0973652633672",
                 'is_active'   => 0,
                 'role'       => 'courier',
                 'worker_id'  => null,
@@ -265,7 +265,7 @@ class ProductionSeeder extends Seeder
                 'name'       => 'Dedi',
                 'username'   => 'dedi',
                 'password'   => Hash::make('123456'),
-                'phone'      => null,
+                'phone'      => "09736526927365",
                 'is_active'   => 0,
                 'role'       => 'courier',
                 'worker_id'  => null,
@@ -545,7 +545,7 @@ class ProductionSeeder extends Seeder
 
         DB::table('raw_material_stocks')->insert([
             'raw_material_master_id' => 1,
-            'stock_kg' => 100,]);
+            'stock_kg' => 220,]);
     }
         
         

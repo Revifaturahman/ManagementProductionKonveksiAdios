@@ -1151,7 +1151,8 @@ class ProcessDelivery2Controller extends Controller
         ])
 
         ->whereIn('status', [
-            'arrive'
+            'arrive',
+            'returning',
         ])
 
         ->whereNotNull(
@@ -1466,5 +1467,51 @@ class ProcessDelivery2Controller extends Controller
 
             'data' => $tasks,
         ]);
+    }
+
+    public function returnToFactory(Request $request)
+    {
+        try {
+
+            DB::transaction(function () use ($request) {
+
+                $deliveries = ProcessDelivery::where(
+                    'courier_id',
+                    $request->user()->id
+                )
+                ->whereNotNull(
+                    'production_batch_detail_process_id'
+                )
+                ->where('status', 'arrive')
+                ->get();
+
+                if ($deliveries->isEmpty()) {
+
+                    throw new \Exception(
+                        'Tidak ada task yang dapat dikembalikan ke konveksi'
+                    );
+                }
+
+                foreach ($deliveries as $delivery) {
+
+                    $delivery->update([
+                        'status' => 'returning',
+                    ]);
+                }
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Kurir sedang kembali ke konveksi',
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
